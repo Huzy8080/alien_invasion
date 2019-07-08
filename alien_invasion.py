@@ -16,9 +16,10 @@ def run_game():
     # 开始游戏主循环
     while True:
         # 监听事件
-        gf.check_events()
+        gf.check_events(ship)
+        # 更新飞船位置
+        ship.update()
         # 更新画面
         gf.update_screen(ai_setting, screen, ship)
-
 
 run_game()
