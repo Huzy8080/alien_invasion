@@ -24,11 +24,12 @@ class Ship():
         self.ai_settings = ai_settings
 
     def update(self):
-        if self.moving_right:
+        if self.moving_right and self.rect.right < self.screen_rect.right:
             self.center += self.ai_settings.ship_speed_factor
-        if self.moving_left:
+        if self.moving_left and self.rect.left > 0:
             self.center -= self.ai_settings.ship_speed_factor
 
+        # rect属性只存储小数值中整数部分
         self.rect.centerx = self.center
 
     def blitme(self):
