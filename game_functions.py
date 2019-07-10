@@ -44,7 +44,8 @@ def check_play_button(stats, play_button, mouse_x, mouse_y, aliens, bullets, ai_
 
 
 def start_game(ai_settings, aliens, bullets, screen, ship, stats):
-    """开始新游戏"""
+    """开始新游戏,并初始化游戏速度"""
+    ai_settings.initialize_dynamic_settings()
     stats.reset_stats()
     stats.game_active = True
     # 隐藏光标
@@ -104,7 +105,9 @@ def check_bullet_alien_collisions(ai_settings, aliens, bullets, screen, ship):
     # 检查是否有子弹击中外星人，如果有，就删除相应的子弹和敌人
     collections = pygame.sprite.groupcollide(bullets, aliens, True, True)
     if len(aliens) == 0:
+        # 删除所有子弹，加快游戏节奏，并创建新的外星人群
         bullets.empty()
+        ai_settings.increase_speed()
         create_fleet(ai_settings, screen, aliens, ship)
 
 
