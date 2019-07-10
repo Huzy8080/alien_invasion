@@ -32,7 +32,7 @@ def run_game():
     # 开始游戏主循环
     while True:
         # 监听事件
-        gf.check_events(ai_settings, screen, ship, bullets, stats, play_button, aliens)
+        gf.check_events(ai_settings, screen, ship, bullets, stats, play_button, aliens, score_board)
         if stats.game_active:
             # 更新飞船位置
             ship.update()
