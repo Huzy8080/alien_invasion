@@ -1,9 +1,11 @@
 import pygame
+from pygame.sprite import Sprite
 
 
-class Ship():
+class Ship(Sprite):
 
     def __init__(self, screen, ai_settings):
+        super(Ship, self).__init__()
         self.screen = screen
         # 加载飞船图片并获取其矩形
         self.image = pygame.image.load('images/ship.bmp')

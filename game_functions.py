@@ -53,6 +53,7 @@ def start_game(ai_settings, aliens, bullets, screen, ship, stats, score_board):
     score_board.prep_score()
     score_board.prep_high_score()
     score_board.prep_level()
+    score_board.prep_ships()
     # 隐藏光标
     pygame.mouse.set_visible(False)
     # 清空外星人和子弹列表
@@ -177,11 +178,13 @@ def check_fleet_edges(ai_settings, aliens):
             break
 
 
-def ship_hit(ai_settings, stats, screen, ship, aliens, bullets):
+def ship_hit(ai_settings, stats, screen, ship, aliens, bullets, score_board):
     """响应被外星人撞到飞船事件"""
     if stats.ships_left > 0:
         # 生命-1
         stats.ships_left -= 1
+        # 更新记分牌
+        score_board.prep_ships()
         # 清空外星人和子弹列表
         aliens.empty()
         bullets.empty()
@@ -197,25 +200,25 @@ def ship_hit(ai_settings, stats, screen, ship, aliens, bullets):
         pygame.mouse.set_visible(True)
 
 
-def update_aliens(ai_settings, stats, screen, ship, aliens, bullets):
+def update_aliens(ai_settings, stats, screen, ship, aliens, bullets, score_board):
     """检查是否有外星人位于屏幕边缘，并更新外星人群中的所有外星人位置"""
     check_fleet_edges(ai_settings, aliens)
     aliens.update()
 
     # 检测外星人和飞船之间的碰撞
     if pygame.sprite.spritecollideany(ship, aliens):
-        ship_hit(ai_settings, stats, screen, ship, aliens, bullets)
+        ship_hit(ai_settings, stats, screen, ship, aliens, bullets, score_board)
 
-    check_aliens_bottom(ai_settings, stats, screen, ship, aliens, bullets)
+    check_aliens_bottom(ai_settings, stats, screen, ship, aliens, bullets, score_board)
 
 
-def check_aliens_bottom(ai_settings, stats, screen, ship, aliens, bullets):
+def check_aliens_bottom(ai_settings, stats, screen, ship, aliens, bullets, score_board):
     """检查是否有外星人到达了屏幕底端"""
     screen_rect = screen.get_rect()
     for alien in aliens.sprites():
         if alien.rect.bottom >= screen_rect.bottom:
             # 像飞船被撞到一样处理
-            ship_hit(ai_settings, stats, screen, ship, aliens, bullets)
+            ship_hit(ai_settings, stats, screen, ship, aliens, bullets, score_board)
             break
 
 
